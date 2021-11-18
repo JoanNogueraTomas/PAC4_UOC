@@ -12,28 +12,30 @@ public class Product {
     private String description;
     private double price;
 
-    //Methods
 
-    public Product() throws Exception{
+    //Constructors
+    public Product() throws ProductException {
         setName("Lorem Ipsum");
         setPublicationYear(2011);
         setDescription("lorem ipsum description");
         setPrice(7.5);
     }
 
-    public Product(String _name, int _publicationYear, String _description, double _price) throws Exception {
+    public Product(String _name, int _publicationYear, String _description, double _price) {
         name = _name;
         publicationYear = _publicationYear;
         description = _description;
         price = _price;
     }
 
+    //Methods
+
     public String getName() {
         return name;
     }
 
-    public void setName(String name) throws Exception {
-        if(name.length() > 50) throw new Exception("[ERROR] Product's name cannot be longer than 50");
+    public void setName(String name) throws ProductException {
+        if(name.length() > 50) throw new ProductException(ProductException.MSG_ERR_NAME);
         else this.name = name;
     }
 
@@ -41,9 +43,9 @@ public class Product {
         return publicationYear;
     }
 
-    public void setPublicationYear(int publicationYear) throws Exception { //TODO throw ProductException Exception
+    public void setPublicationYear(int publicationYear) throws ProductException {
         LocalDate current_date = LocalDate.now();
-        if(publicationYear > current_date.getYear()) throw new Exception("[ERROR] Product's publicationYear cannot be later than current year");
+        if(publicationYear > current_date.getYear()) throw new ProductException(ProductException.MSG_PUBLICATION_YEAR);
         this.publicationYear = publicationYear;
     }
 
@@ -51,8 +53,8 @@ public class Product {
         return description;
     }
 
-    public void setDescription(String description) throws Exception {//TODO throw ProductException Exception
-        if(description.length() > 250) throw new Exception("[ERROR] Product's description cannot be longer than 250 characters");
+    public void setDescription(String description) throws ProductException {
+        if(description.length() > 250) throw new ProductException(ProductException.MSG_DESCRIPTION);
         else this.description = description;
     }
 
@@ -60,20 +62,21 @@ public class Product {
         return price;
     }
 
-    public void setPrice(double price) throws Exception {
-        if(price < 0) throw new Exception();
-        this.price = price;
+    public void setPrice(double price) throws ProductException {
+        if(price < 0) throw new ProductException(ProductException.MSG_ERR_NEGATIVE);
+        else this.price = price;
     }
 
     public String getReference() {
         return reference;
     }
 
-    public void createReference(){ //TODO
+    public void createReference() {
         String prod = "PROD.";
         reference = prod + String.valueOf(referenceId);
         referenceId++;
     }
+
     @Override
     public String toString() {
         return "Product{" +
